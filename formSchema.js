@@ -8,6 +8,7 @@ const formSchema = mongoose.Schema({
     number: String,
     subject: String,
     mobileCode: String,
+    verified: Boolean,
 })
 
 module.exports = formSchema;
