@@ -6,11 +6,6 @@ const FormData = mongoose.model('FormData', formSchema);
 const OTPVerification = require('./models/OTPVerification');
 const nodemailer = require('nodemailer');
 const bcrypt = require("bcrypt");
-// const emailSchema = require('./models/emailSchema');
-// const EmailData = mongoose.model('EmailData', emailSchema);
-
-
-
 
 //Nodemailer setup
 let transporter = nodemailer.createTransport({
@@ -27,25 +22,7 @@ let transporter = nodemailer.createTransport({
     }
 });
 
-//post
-router.post('/', async (req, res) => {
-    const newData = new FormData(req.body);
-    const email = newData.email;
-    console.log(email);
-    await newData.save((err) => {
-        if (err) {
-            res.status(500).json({
-                error: "There was an error"
-            })
-        }
-        else {
-            res.status(200).json({
-                error: "Data was inserted successfully"
-            });
-        }
-    });
 
-});
 
 //send the otp
 router.post('/emailOtp', async (req, res) => {
@@ -97,11 +74,12 @@ router.post('/emailOtp', async (req, res) => {
     }
 });
 
-//verify the otp
-router.post('/verifyOtp', async (req, res) => {
+//post
+router.post('/', async (req, res) => {
     try {
-        console.log(req.body);
-        let { otp } = req.body;
+        const newData = new FormData(req.body);
+        const otp = newData.emailCode;
+        console.log(newData, otp);
         if (!otp) {
             res.status(400).json({
                 status: "Failed",
@@ -127,13 +105,22 @@ router.post('/verifyOtp', async (req, res) => {
                         message: "OTP is invalid"
                     })
                 } else {
-                    res.status(200).json({
-                        status: "success",
-                        message: "OTP is valid"
-                    })
+                    await newData.save((err) => {
+                        if (err) {
+                            res.status(500).json({
+                                error: "There was an error"
+                            })
+                        }
+                        else {
+                            res.status(200).json({
+                                message: "Data was inserted successfully"
+                            });
+                        }
+                    });
                 }
             }
         }
+
     }
     catch (err) {
         res.status(500).json({
@@ -141,10 +128,7 @@ router.post('/verifyOtp', async (req, res) => {
             message: err.message
         })
     }
-})
-
-
-
+});
 
 
 module.exports = router;
