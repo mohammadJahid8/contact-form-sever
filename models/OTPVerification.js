@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const OTPVerificationSchema = new Schema({
-    otp: String,
+    otp: Number,
     createdAt: Date,
     expiresAt: Date,
 })
