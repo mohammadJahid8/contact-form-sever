@@ -1,7 +1,33 @@
 const express = require('express');
-const cors = require("cors");
 const mongoose = require("mongoose");
 const formHandler = require("./formHandler");
+//port
+const port = process.env.PORT || 5000;
+const cors = require("cors");
+
+//express app initialization
+const app = express();
+app.use(express.json());
+
+//cors
+app.use(cors());
+const corsConfig = {
+    origin: "https://invulnerable-saucisson-78811.herokuapp.com/",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+};
+
+app.use(cors(corsConfig));
+app.options("*", cors(corsConfig));
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "https://invulnerable-saucisson-78811.herokuapp.com/");
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept,authorization"
+    );
+    next();
+});
+
 
 //database connection with mongoose
 // contactDB
@@ -13,34 +39,6 @@ mongoose.connect("mongodb+srv://contactDB:OZz3wWRtP5OY78Xh@cluster0.dydxs.mongod
     .catch(() => {
         console.log("Connection failed!");
     })
-
-//port
-const port = process.env.PORT || 5000;
-
-
-//express app initialization
-const app = express();
-app.use(express.json());
-
-//cors
-app.use(cors({origin: '*'}));
-app.use(cors());
-const corsConfig = {
-    origin: "*",
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-};
-
-app.use(cors(corsConfig));
-app.options("*", cors(corsConfig));
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept,authorization"
-    );
-    next();
-});
 
 
 //routes

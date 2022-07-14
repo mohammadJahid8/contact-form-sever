@@ -25,11 +25,6 @@ let transporter = nodemailer.createTransport({
 });
 
 
-//twilio setup
-function sendSMS() {
-
-}
-
 router.post('/mobileOTP', async (req, res) => {
     try {
         const newData = req.body;
