@@ -23,6 +23,7 @@ const app = express();
 app.use(express.json());
 
 //cors
+app.use(cors({origin: '*'}));
 app.use(cors());
 const corsConfig = {
     origin: "*",
