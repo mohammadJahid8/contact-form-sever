@@ -6,8 +6,11 @@ const FormData = mongoose.model('FormData', formSchema);
 const OTPVerification = require('./models/OTPVerification');
 const nodemailer = require('nodemailer');
 const bcrypt = require("bcrypt");
+require('dotenv').config();
+const sid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
 
-const client = require('twilio')("ACe13aa47fce5a4383df4afe15ce2b4011", "52409996651ab115b2502090b3bc0baa");
+const client = require('twilio')(sid, authToken);
 
 //Nodemailer setup
 let transporter = nodemailer.createTransport({
@@ -29,21 +32,23 @@ router.post('/mobileOTP', async (req, res) => {
     try {
         const newData = req.body;
         const number = newData.number;
+        console.log(number);
         const otp = `${Math.floor(10000 + Math.random() * 9000)}`;
-
+        console.log(otp);
 
         const newOTPVerification = await new OTPVerification({
             otp,
             createdAt: Date.now(),
             expiresAt: Date.now() + 3600000
         });
+        console.log(newOTPVerification);
 
         await newOTPVerification.save();
 
         client.messages.create({
             body: `Your OTP is ${otp}`,
             to: `+88${number}`,
-            from: '+13344542504'
+            from: '+18647351963'
         }).then(message => {
             res.json({
                 status: "pending",
