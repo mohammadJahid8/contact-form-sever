@@ -26,6 +26,7 @@ app.use(function (req, res, next) {
         "Origin, X-Requested-With, Content-Type, Accept,authorization"
     );
     next();
+    return res.sendStatus(200); 
 });
 
 
