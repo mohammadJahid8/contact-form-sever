@@ -11,22 +11,22 @@ app.use(express.json());
 
 //cors
 app.use(cors());
-const corsConfig = {
-    origin: "https://invulnerable-saucisson-78811.herokuapp.com/",
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-};
+// const corsConfig = {
+//     origin: "https://invulnerable-saucisson-78811.herokuapp.com/",
+//     credentials: true,
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+// };
 
-app.use(cors(corsConfig));
-app.options("*", cors(corsConfig));
+// app.use(cors(corsConfig));
+// app.options("*", cors(corsConfig));
 app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "https://invulnerable-saucisson-78811.herokuapp.com/");
+    res.header("Access-Control-Allow-Origin", "*");
     res.header(
         "Access-Control-Allow-Headers",
         "Origin, X-Requested-With, Content-Type, Accept,authorization"
     );
     next();
-    return res.sendStatus(200); 
+    return res.sendStatus(200);
 });
 
 
