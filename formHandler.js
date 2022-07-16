@@ -74,7 +74,7 @@ router.post('/emailOtp', async (req, res) => {
         const email = newData.email;
         const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
         const mailOptions = {
-            from: '"Mohammad Jahid" <mohammadjahid0007@gmail.com>',
+            from: '"Mohammad Jahid" <mohammadjahid007@gmail.com>',
             to: email,
             subject: "Verify your email",
             html: `<p>User <b>${otp}</b> to verify your mail</p>
